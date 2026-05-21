@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mithai Wala - Employee Salary & Advance Tracker</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-cookie-bite"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Mithai Wala</h1>
+                    <span>Sweet Shop Tracker</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-tab="dashboard">
+                        <a href="#dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item" data-tab="employees">
+                        <a href="#employees"><i class="fa-solid fa-users"></i> Employees</a>
+                    </li>
+                    <li class="nav-item" data-tab="attendance">
+                        <a href="#attendance"><i class="fa-solid fa-calendar-check"></i> Work Log</a>
+                    </li>
+                    <li class="nav-item" data-tab="advances">
+                        <a href="#advances"><i class="fa-solid fa-hand-holding-dollar"></i> Advances</a>
+                    </li>
+                    <li class="nav-item" data-tab="settlements">
+                        <a href="#settlements"><i class="fa-solid fa-scale-balanced"></i> Settlement</a>
+                    </li>
+                    <li class="nav-item" data-tab="history">
+                        <a href="#history"><i class="fa-solid fa-receipt"></i> Receipts History</a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar"><i class="fa-solid fa-circle-user"></i></div>
+                    <div class="details">
+                        <p class="name">Owner Panel</p>
+                        <p class="role">Sweet Shop Manager</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Global Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2 id="page-title">Dashboard Overview</h2>
+                    <p id="current-date" class="date-display"></p>
+                </div>
+                <div class="header-right">
+                    <div class="quick-status">
+                        <div class="status-dot"></div>
+                        <span>Database Persistent (H2)</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Tab View -->
+            <section id="dashboard" class="tab-view active">
+                <div class="kpi-grid">
+                    <div class="kpi-card purple-gradient">
+                        <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="kpi-details">
+                            <h3>Active Employees</h3>
+                            <p class="kpi-value" id="stat-active-employees">0</p>
+                            <span>Staying in shop</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card red-gradient">
+                        <div class="kpi-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                        <div class="kpi-details">
+                            <h3>Outstanding Advances</h3>
+                            <p class="kpi-value" id="stat-advances">₹0</p>
+                            <span>Deductible amount</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card green-gradient">
+                        <div class="kpi-icon"><i class="fa-solid fa-business-time"></i></div>
+                        <div class="kpi-details">
+                            <h3>Unpaid Days Worked</h3>
+                            <p class="kpi-value" id="stat-unpaid-days">0</p>
+                            <span>Total shifts logged</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card orange-gradient">
+                        <div class="kpi-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div class="kpi-details">
+                            <h3>Est. Unpaid Wages</h3>
+                            <p class="kpi-value" id="stat-unpaid-wages">₹0</p>
+                            <span>Before advances</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-layouts">
+                    <!-- Right Now Working list -->
+                    <div class="layout-card glass-panel flex-grow-2">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-clock"></i> Active Stints & Stays</h3>
+                            <span class="badge">Current Working Period</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-container">
+                                <table class="custom-table" id="dashboard-active-stints">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Days Worked</th>
+                                            <th>Est. Earnings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" class="empty-state"><i class="fa-solid fa-inbox"></i> No active work stints logged.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Operations Widget -->
+                    <div class="layout-card glass-panel flex-grow-1">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-bolt"></i> Quick Operations</h3>
+                        </div>
+                        <div class="panel-body quick-ops">
+                            <button class="btn btn-primary" onclick="openEmployeeModal()"><i class="fa-solid fa-user-plus"></i> Add New Employee</button>
+                            <button class="btn btn-secondary" onclick="navigateToTab('attendance')"><i class="fa-solid fa-calendar-plus"></i> Log Working Shift</button>
+                            <button class="btn btn-accent" onclick="navigateToTab('advances')"><i class="fa-solid fa-hand-holding-dollar"></i> Give Salary Advance</button>
+                            <button class="btn btn-success" onclick="navigateToTab('settlements')"><i class="fa-solid fa-scale-balanced"></i> Compute Settlement</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Employees Tab View -->
+            <section id="employees" class="tab-view">
+                <div class="view-actions">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="employee-search" placeholder="Search employees..." oninput="filterEmployees()">
+                    </div>
+                    <button class="btn btn-primary" onclick="openEmployeeModal()"><i class="fa-solid fa-user-plus"></i> Add Employee</button>
+                </div>
+
+                <div class="employees-grid" id="employees-list">
+                    <!-- Dynamic Employee Cards go here -->
+                </div>
+            </section>
+
+            <!-- Work Log Tab View -->
+            <section id="attendance" class="tab-view">
+                <div class="split-layout">
+                    <!-- Log Form -->
+                    <div class="layout-card glass-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-calendar-plus"></i> Log Work Period</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form id="work-log-form" class="custom-form" onsubmit="saveWorkLog(event)">
+                                <div class="form-group">
+                                    <label for="work-employee">Select Employee</label>
+                                    <select id="work-employee" required onchange="updateDailyWageHelp()">
+                                        <option value="">-- Choose Employee --</option>
+                                    </select>
+                                    <span class="help-text" id="daily-wage-help"></span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="work-start">Start Date</label>
+                                        <input type="date" id="work-start" required onchange="calculateAutoDays()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="work-end">End Date</label>
+                                        <input type="date" id="work-end" required onchange="calculateAutoDays()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="work-days">Days Worked</label>
+                                    <input type="number" id="work-days" min="1" required placeholder="Days spent in shop working">
+                                    <span class="help-text">Automatically calculated based on dates, but can be manually overridden.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="work-remarks">Remarks (e.g. Leave adjustments)</label>
+                                    <input type="text" id="work-remarks" placeholder="Optional notes...">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-save"></i> Save Work Log</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Current Active Work Records -->
+                    <div class="layout-card glass-panel flex-grow-2">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-clock-rotate-left"></i> Unsettled Work Shifts</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-container">
+                                <table class="custom-table" id="work-records-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee</th>
+                                            <th>From & To</th>
+                                            <th>Days</th>
+                                            <th>Earned</th>
+                                            <th>Remarks</th>
+                                            <th class="actions-col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advances Tab View -->
+            <section id="advances" class="tab-view">
+                <div class="split-layout">
+                    <!-- Log Form -->
+                    <div class="layout-card glass-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-hand-holding-dollar"></i> Give Advance Payment</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form id="advance-form" class="custom-form" onsubmit="saveAdvance(event)">
+                                <div class="form-group">
+                                    <label for="advance-employee">Select Employee</label>
+                                    <select id="advance-employee" required>
+                                        <option value="">-- Choose Employee --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="advance-date">Payment Date</label>
+                                    <input type="date" id="advance-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="advance-amount">Advance Amount (₹)</label>
+                                    <input type="number" id="advance-amount" min="1" step="any" required placeholder="Amount in Rupees">
+                                </div>
+                                <div class="form-group">
+                                    <label for="advance-remarks">Remarks</label>
+                                    <input type="text" id="advance-remarks" placeholder="Reason for advance...">
+                                </div>
+                                <button type="submit" class="btn btn-accent btn-block"><i class="fa-solid fa-paper-plane"></i> Record Advance</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Current Outstanding Advances -->
+                    <div class="layout-card glass-panel flex-grow-2">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-receipt"></i> Outstanding Cash Advances</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-container">
+                                <table class="custom-table" id="advances-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Remarks</th>
+                                            <th class="actions-col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settlement Tab View -->
+            <section id="settlements" class="tab-view">
+                <div class="settlement-selector glass-panel">
+                    <div class="form-group mb-0">
+                        <label for="settle-employee-select" class="d-inline mr-3">Choose Employee to Settle:</label>
+                        <select id="settle-employee-select" onchange="loadEmployeeSettlementSummary(this.value)">
+                            <option value="">-- Select Employee --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Settlement Details Ledger Sheet -->
+                <div id="settlement-ledger-area" style="display: none;">
+                    <div class="ledger-sheet glass-panel">
+                        <div class="ledger-header">
+                            <div class="shop-brand">
+                                <h2>MITHAI WALA SWEETS</h2>
+                                <p>Employee Account Ledger</p>
+                            </div>
+                            <div class="ledger-info">
+                                <p><strong>Employee:</strong> <span id="ledger-emp-name"></span></p>
+                                <p><strong>Daily Wage Rate:</strong> ₹<span id="ledger-emp-rate"></span>/day</p>
+                            </div>
+                        </div>
+
+                        <div class="ledger-columns">
+                            <!-- Left: Work Earned Column -->
+                            <div class="ledger-column">
+                                <h4 class="col-title green-text"><i class="fa-solid fa-plus-circle"></i> Work Earnings (+)</h4>
+                                <div class="table-container">
+                                    <table class="ledger-table" id="ledger-work-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Period</th>
+                                                <th>Days</th>
+                                                <th class="text-right">Earned</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic lines -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Right: Advances Deductions Column -->
+                            <div class="ledger-column">
+                                <h4 class="col-title red-text"><i class="fa-solid fa-minus-circle"></i> Advances Taken (-)</h4>
+                                <div class="table-container">
+                                    <table class="ledger-table" id="ledger-advances-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Remarks</th>
+                                                <th class="text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic lines -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Computations Ledger Footer -->
+                        <div class="ledger-calculation-row">
+                            <div class="remarks-box">
+                                <label for="settlement-remarks">Settlement Remarks</label>
+                                <textarea id="settlement-remarks" rows="2" placeholder="e.g. Paid cash by hand, resolved adjustments"></textarea>
+                            </div>
+                            <div class="summary-box">
+                                <div class="summary-line">
+                                    <span>Total Days Worked:</span>
+                                    <strong id="ledger-summary-days">0 days</strong>
+                                </div>
+                                <div class="summary-line">
+                                    <span>Total Wage Earnings:</span>
+                                    <strong class="green-text">₹<span id="ledger-summary-earned">0</span></strong>
+                                </div>
+                                <div class="summary-line">
+                                    <span>Total Advances Subtracted:</span>
+                                    <strong class="red-text">₹<span id="ledger-summary-advances">0</span></strong>
+                                </div>
+                                <div class="summary-line total-highlight">
+                                    <span>NET PAYABLE CASH:</span>
+                                    <span>₹<span id="ledger-summary-net">0</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ledger-actions">
+                            <button class="btn btn-success btn-lg" onclick="processSettlement()"><i class="fa-solid fa-file-invoice-dollar"></i> Disburse Cash & Print Receipt Slip</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settlement-empty-prompt" class="empty-prompt glass-panel">
+                    <i class="fa-solid fa-scale-unbalanced-flip"></i>
+                    <p>Please select an employee from the dropdown above to view outstanding balances and compute settlement ledger.</p>
+                </div>
+            </section>
+
+            <!-- Receipts History Tab View -->
+            <section id="history" class="tab-view">
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-receipt"></i> Completed Settlement Receipts</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="custom-table" id="history-receipts-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Employee</th>
+                                        <th>Period Settled</th>
+                                        <th>Days</th>
+                                        <th>Gross Earned</th>
+                                        <th>Deductions</th>
+                                        <th>Net Paid</th>
+                                        <th class="actions-col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- HTML5 Dialog Modal: Add/Edit Employee -->
+    <dialog id="employeeDialog" class="modern-dialog glass-panel">
+        <div class="dialog-header">
+            <h3 id="dialog-title">Add New Employee</h3>
+            <button class="btn-close" onclick="closeEmployeeModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dialog-body">
+            <form id="employee-form" class="custom-form" onsubmit="saveEmployee(event)">
+                <input type="hidden" id="employee-id">
+                <div class="form-group">
+                    <label for="employee-name">Full Name</label>
+                    <input type="text" id="employee-name" required placeholder="e.g. Ram Singh">
+                </div>
+                <div class="form-group">
+                    <label for="employee-phone">Phone Number</label>
+                    <input type="tel" id="employee-phone" placeholder="e.g. 9876543210">
+                </div>
+                <div class="form-group">
+                    <label for="employee-wage">Daily Wage Rate (₹)</label>
+                    <input type="number" id="employee-wage" min="1" step="any" required placeholder="e.g. 500">
+                </div>
+                <div class="form-group">
+                    <label for="employee-joindate">Joining Date</label>
+                    <input type="date" id="employee-joindate" required>
+                </div>
+                <div class="dialog-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEmployeeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Employee</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- HTML5 Dialog Modal: Thermal Receipt Slip -->
+    <dialog id="receiptDialog" class="modern-dialog receipt-dialog">
+        <div class="dialog-header no-print">
+            <h3>Settlement Receipt Slip</h3>
+            <button class="btn-close" onclick="closeReceiptModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dialog-body">
+            <!-- Realistic Thermal Receipt Container -->
+            <div class="thermal-receipt" id="receipt-print-area">
+                <div class="receipt-header">
+                    <h2>MITHAI WALA SWEETS</h2>
+                    <p>Station Road, Sweet Shop</p>
+                    <p>Phone: +91 98765 43210</p>
+                    <div class="divider">********************************</div>
+                    <h3>SALARY SETTLEMENT SLIP</h3>
+                    <div class="divider">********************************</div>
+                </div>
+
+                <div class="receipt-details">
+                    <p><strong>Receipt #:</strong> <span id="rec-id"></span></p>
+                    <p><strong>Date:</strong> <span id="rec-date"></span></p>
+                    <p><strong>Employee:</strong> <span id="rec-name"></span></p>
+                    <p><strong>Daily Rate:</strong> ₹<span id="rec-rate"></span>/day</p>
+                    <p id="rec-period-row"><strong>Period:</strong> <span id="rec-period"></span></p>
+                    <div class="divider">--------------------------------</div>
+                </div>
+
+                <!-- Earnings detail -->
+                <div class="receipt-section">
+                    <p class="section-title">WAGE EARNINGS</p>
+                    <div id="rec-work-lines">
+                        <!-- Dynamic Work lines -->
+                    </div>
+                    <div class="divider">--------------------------------</div>
+                </div>
+
+                <!-- Advances detail -->
+                <div class="receipt-section" id="rec-advances-section">
+                    <p class="section-title">ADVANCES DEDUCTED</p>
+                    <div id="rec-advance-lines">
+                        <!-- Dynamic Advance lines -->
+                    </div>
+                    <div class="divider">--------------------------------</div>
+                </div>
+
+                <!-- Ledger Math summary -->
+                <div class="receipt-summary">
+                    <p><strong>Gross Wages:</strong> <span class="pull-right">₹<span id="rec-gross">0</span></span></p>
+                    <p><strong>Advances Subtracted:</strong> <span class="pull-right">- ₹<span id="rec-deductions">0</span></span></p>
+                    <div class="divider">--------------------------------</div>
+                    <h2 class="net-cash">NET CASH PAID: <span class="pull-right">₹<span id="rec-net">0</span></span></h2>
+                    <div class="divider">********************************</div>
+                </div>
+
+                <div class="receipt-footer">
+                    <p class="remarks-row"><strong>Notes:</strong> <span id="rec-remarks">N/A</span></p>
+                    <div class="signature-section">
+                        <div class="sig-box">
+                            <div class="sig-line"></div>
+                            <span>Owner Sig</span>
+                        </div>
+                        <div class="sig-box">
+                            <div class="sig-line"></div>
+                            <span>Employee Sig</span>
+                        </div>
+                    </div>
+                    <p class="thank-you">Thank you for your hard work!</p>
+                </div>
+            </div>
+            
+            <div class="dialog-actions no-print mt-3">
+                <button class="btn btn-secondary" onclick="closeReceiptModal()">Close</button>
+                <button class="btn btn-success" onclick="printReceipt()"><i class="fa-solid fa-print"></i> Print Slip</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- App JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>
