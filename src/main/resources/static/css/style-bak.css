@@ -6,18 +6,18 @@
 :root {
     --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-accent: 'Playfair Display', Georgia, serif;
-    
+
     /* Curated Dark Mode Color Palette */
     --bg-main: #0c0a0f;
     --bg-sidebar: #131018;
     --bg-glass: rgba(255, 255, 255, 0.03);
     --border-glass: rgba(255, 255, 255, 0.07);
     --border-focus: rgba(124, 58, 237, 0.4);
-    
+
     --text-primary: #f3f1f6;
     --text-muted: #9c97a8;
     --text-dark: #1f1a24;
-    
+
     /* Harmonious Vibrant Gradients */
     --gradient-purple: linear-gradient(135deg, #8b5cf6, #6366f1);
     --gradient-emerald: linear-gradient(135deg, #10b981, #059669);
@@ -25,11 +25,11 @@
     --gradient-amber: linear-gradient(135deg, #f59e0b, #d97706);
     --gradient-slate: linear-gradient(135deg, #64748b, #475569);
     --gradient-background: radial-gradient(circle at 10% 20%, #1a1625 0%, #0d0a14 90%);
-    
+
     /* Glow shadows */
     --shadow-purple: 0 4px 20px rgba(139, 92, 246, 0.25);
     --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    
+
     /* Border Radius */
     --radius-sm: 8px;
     --radius-md: 16px;
@@ -89,7 +89,6 @@ body {
     height: 100vh;
     position: sticky;
     top: 0;
-    transition: all 0.3s ease;
 }
 
 .sidebar-brand {
@@ -1109,181 +1108,16 @@ body {
 .flex-grow-1 { flex-grow: 1; }
 .flex-grow-2 { flex-grow: 2; }
 
-/* ======================================================
-   MOBILE + PROFESSIONAL UI IMPROVEMENTS
-====================================================== */
-
-:root {
-    --bg-main: #18161f;
-    --bg-sidebar: #211c2b;
-    --bg-glass: rgba(255,255,255,0.05);
-
-    --gradient-background:
-        linear-gradient(135deg,#221c31 0%, #18161f 100%);
-}
-
-/* Mobile Menu Button */
-.mobile-menu-btn {
-    display: none;
-    background: var(--gradient-purple);
-    border: none;
-    color: white;
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-/* Better Layout */
-.top-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(24,22,31,0.95);
-    padding-bottom: 1rem;
-    backdrop-filter: blur(10px);
-}
-
-/* Softer Panels */
-.glass-panel {
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(10px);
-}
-
-/* Better Inputs */
-.custom-form input,
-.custom-form select,
-.custom-form textarea {
-    background: rgba(255,255,255,0.04);
-}
-
-/* Better Table */
-.custom-table th {
-    background: rgba(255,255,255,0.05);
-}
-
-/* =========================================
-   MOBILE RESPONSIVE
-========================================= */
-
-@media screen and (max-width: 768px) {
-
-    .app-container {
-        grid-template-columns: 1fr;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        position: fixed;
-        left: -280px;
-        top: 0;
-        width: 260px;
-        z-index: 999;
-        transition: 0.3s ease;
-    }
-
-    .sidebar.active {
-        left: 0;
-    }
-
-    /* Show Mobile Button */
-    .mobile-menu-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Main Content */
-    .main-content {
-        padding: 1rem;
-    }
-
-    /* Header */
-    .top-header {
-        flex-direction: row;
-        gap: 1rem;
-    }
-
-    #page-title {
-        font-size: 1.4rem;
-    }
-
-    /* KPI Cards */
-    .kpi-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Layout Fix */
-    .dashboard-layouts,
-    .split-layout,
-    .ledger-columns,
-    .ledger-calculation-row {
-        grid-template-columns: 1fr;
-    }
-
-    /* Forms */
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    /* Tables */
-    .table-container {
-        overflow-x: auto;
-    }
-
-    .custom-table {
-        min-width: 600px;
-    }
-
-    /* Employees */
-    .employees-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Buttons */
-    .btn {
-        width: 100%;
-    }
-
-    /* View Actions */
-    .view-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .search-bar {
-        max-width: 100%;
-    }
-
-    /* Dialog */
-    .modern-dialog {
-        width: 96%;
-        max-width: 96%;
-    }
-
-    /* Receipt */
-    .receipt-dialog {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    /* Hide Status */
-    .quick-status {
-        display: none;
-    }
-}
-
 /* PRINT MEDIA QUERIES - Hide UI elements when printing */
 @media print {
     body * {
         visibility: hidden;
     }
-    
+
     #receipt-print-area, #receipt-print-area * {
         visibility: visible;
     }
-    
+
     #receipt-print-area {
         position: absolute;
         left: 0;
@@ -1293,7 +1127,7 @@ body {
         padding: 0 !important;
         box-shadow: none !important;
     }
-    
+
     .receipt-dialog {
         background: white !important;
         box-shadow: none !important;
